@@ -1,0 +1,64 @@
+foreach ($folder_list as $key => $value) {
+			if ($value == $images) {
+				$d_images = true;
+			}
+			if ($value == $document) {
+				$d_doccument = true;
+			}
+		}
+		if (!$d_images) {
+			ftp_mkdir($con,$images);
+		}
+		if (!$d_images) {
+			ftp_mkdir($con,$document);
+		}
+		$folderimage_list = ftp_nlist($con,$images);
+		foreach ($folderimage_list as $key => $value) {
+			if ($value == $new) {
+				$d_new == true;
+			}
+		}
+		if (!$d_new) {
+			ftp_mkdir($con,$images.'/'.$new);	
+		}
+
+
+
+<VirtualHost *:80>
+     DocumentRoot "C:/xampp/htdocs/FTP/"
+     ServerName publocalpage.vn
+</VirtualHost>
+
+<VirtualHost *:80>
+     DocumentRoot "C:/xampp/htdocs/task1/"
+     ServerName cmslocalpage.vn
+</VirtualHost>
+
+
+
+
+<VirtualHost *:80>
+     DocumentRoot "C:/xampp/htdocs/mypro/"
+     ServerName hunghi.vn
+</VirtualHost>
+
+
+
+config.filebrowserBrowseUrl = '/assets/ckfinder/ckfinder.html';
+    config.filebrowserImageBrowseUrl = '/assets/ckfinder/ckfinder.html?type=Images';
+    config.filebrowserFlashBrowseUrl = '/assets/ckfinder/ckfinder.html?type=Flash';
+    config.filebrowserUploadUrl = '/assets/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files';
+    config.filebrowserImageUploadUrl = '/assets/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images';
+    config.filebrowserFlashUploadUrl = '/assets/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash';
+CKEDITOR.config.enterMode = CKEDITOR.ENTER_BR;
+$("#preview").click(function(){
+            var id = $(this).val();     
+            $.ajax({
+              method: "POST",
+              url: "preview.php",
+              data:{id: id } ,
+              success : function(response){
+                console.log(response);
+              }
+              });
+            });

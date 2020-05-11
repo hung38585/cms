@@ -1,0 +1,107 @@
+.fullscreen .body {
+		font-family: 'Muli', sans-serif;
+		font-size: 16px;
+		color: #505050;
+		font-weight: 400;
+		overflow-x: hidden;
+	}
+	
+	h1 {
+		font-size: 32.437px;
+	}
+	h2 {
+		font-size: 25.629px;
+	}
+	h3 {
+		font-size: 20.25px;
+	}
+	p {
+		margin: 0px 0px 20px;
+	}
+	.nav-menu  a, .category-widget a {
+		color: #11151c;
+		-webkit-transition: 0.2s color;
+		transition: 0.2s color;
+	}
+	.nav-menu a:hover , .category-widget a:hover {
+		color: #ee4266;
+		text-decoration: none;
+		outline: none;
+	}
+	ul, ol {
+		margin: 0;
+		padding: 0;
+		list-style: none
+	}
+	.nav-social {
+		float: left;
+		padding: 10px 0px;
+	}
+
+	.nav-social li {
+		display: inline-block;
+	}
+	.nav-social li a {
+		display: block;
+		padding: 15px;
+		line-height: 20px;
+	}
+	.nav-menu {
+		position: relative;
+		text-align: center;
+		float: none;
+	}
+	.nav-menu>li {
+		float: none;
+		display: inline-block;
+	}
+	.nav-menu>li>a {
+		display: block;
+		padding: 25px 15px;
+		line-height: 20px;
+		font-weight: 700;
+		text-transform: uppercase;
+	}
+	.page-header {
+		position: relative;
+		margin: 0;
+		padding-top: 120px;
+		padding-bottom: 80px;
+		background-image: url("https://coolbackgrounds.io/images/backgrounds/index/sea-edge-79ab30e2.png");
+		background-size: cover;
+	}
+	.page-header h1 {
+		font-size: 41.053px;
+		text-align: center;
+		color: #FFF;
+	}
+	.page-header p.lead {
+		text-align: center;
+		font-size: 20.25px;
+		color: #FFF;
+	}
+	.category-widget ul li {
+		padding: 15px 0px;
+		border-bottom: 1px solid #e8eaed;
+	}
+
+	.category-widget ul li a {
+		display: block;
+		text-transform: uppercase;
+		font-weight: 700;
+	}
+	.category-widget ul li a span {
+		float: right;
+		font-size: 14px;
+		color: #97989b;
+		margin-left: 15px;
+	}
+	.footer-widget .category-widget ul li {
+		border-color: #323335;
+	}
+	#footer {
+		margin-top: 40px;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		background-color: #1b1c1e;
+	}

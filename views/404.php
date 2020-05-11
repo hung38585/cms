@@ -1,0 +1,2 @@
+<title>Page not found</title>
+<h1>Page not found</h1>
