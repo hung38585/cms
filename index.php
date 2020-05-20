@@ -8,6 +8,7 @@ $template = '/views/templates/';
 $user = '/views//users/';
 $organization = '/views//organizations/';
 $autolink = '/views//autolinks/';
+$flow = '/views/flows/';
 switch ($request) {
     case '/' :
         require __DIR__.$post.'index.php';
@@ -65,7 +66,13 @@ switch ($request) {
         break;
     case '/autolink/edit/'.$id :
         require __DIR__.$autolink.'related.php';
-        break;                               
+        break;
+    case '/flow' :
+        require __DIR__.$flow.'index.php';
+        break;
+    case '/flow/create' :
+        require __DIR__.$flow.'create.php';
+        break;                                       
     default:
         http_response_code(404);
         require __DIR__.'/views/404.php';

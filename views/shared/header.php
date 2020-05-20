@@ -42,6 +42,9 @@ if (isset($_POST['logout'])) {
         <li class="nav-item">
           <a class="nav-link" href="/autolink">Autolink</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/flow">Flow</a>
+        </li>
         <?php endif ?>
       </ul>
       <div class="col-md-3">

@@ -42,12 +42,18 @@ class post extends connectdb
         $start = ($current_page - 1) * $lm;
 		$condition='';
         if ($where) {
-            foreach ($where as $key => $value) {
-                $condition .= $key . " = '".$value. "' and ";
+            foreach ($where as $key => $value) { 
+                if ($key != 'template.id' && $key != 'flows.id') {
+                    $value = "'".$value."'";
+                }
+                $condition .= $key . " = ".$value. " and ";
             }
         }
         $condition = substr($condition, 0, -5);  
-        $sqlselect =  "SELECT * FROM ";    
+        $sqlselect =  "SELECT $table.* FROM $table ";    
+        if (array_key_exists("flows.ar1", $where) || array_key_exists("flows.ar2", $where) || array_key_exists("flows.ar3", $where)) {
+            $sqlselect =  "SELECT $table.* FROM $table,template,flows ";
+        }
         $id = '';
         if ($condition_id) {
             foreach ($condition_id as $key => $value) {
@@ -66,13 +72,13 @@ class post extends connectdb
         }
         if ($condition) {
             if ($search) {
-                $sql = $sqlselect.$table." WHERE ".$condition." and ".$title." LIKE '%".$search."%' ".$id.$cond_status." ORDER BY created_at DESC LIMIT ".$start.",".$lm;
+                $sql = $sqlselect." WHERE ".$condition." and ".$title." LIKE '%".$search."%' ".$id.$cond_status." ORDER BY created_at DESC LIMIT ".$start.",".$lm;
             }else{
-                $sql = $sqlselect.$table." WHERE ".$condition.$id.$cond_status." ORDER BY created_at DESC LIMIT ".$start.",".$lm;   
+                $sql = $sqlselect." WHERE ".$condition.$id.$cond_status." ORDER BY created_at DESC LIMIT ".$start.",".$lm;   
             }
         }else{
             if ($search) {
-                $sql = $sqlselect.$table." WHERE ".$title." LIKE '%".$search."%' ".$id.$cond_status." ORDER BY created_at DESC LIMIT ".$start.",".$lm;
+                $sql = $sqlselect." WHERE ".$title." LIKE '%".$search."%' ".$id.$cond_status." ORDER BY created_at DESC LIMIT ".$start.",".$lm;
             }else{
                 $id = substr($id,4,strlen($id)-1);
                 if ($id) {
@@ -82,7 +88,7 @@ class post extends connectdb
                         $cond_status = " WHERE ".$id;
                     }
                 }
-                $sql = $sqlselect.$table.$id.$cond_status." ORDER BY created_at DESC LIMIT ".$start.",".$lm;   
+                $sql = $sqlselect.$id.$cond_status." ORDER BY created_at DESC LIMIT ".$start.",".$lm;   
             }
         }
         $list = $this->dbconnect->connectQuery($sql);
@@ -212,7 +218,10 @@ class post extends connectdb
         $condition='';
         if ($where) {
             foreach ($where as $key => $value) {
-                $condition .= $key . " = '".$value. "' and ";
+                if ($key != 'template.id' && $key != 'flows.id') {
+                    $value = "'".$value."'";
+                }
+                $condition .= $key . " = ".$value. " and ";
             }
         }
         $id = '';
@@ -231,11 +240,15 @@ class post extends connectdb
             $cond_status = substr($cond_status,0,strlen($cond_status)-1);
             $cond_status = ' AND status in ('.$cond_status.') AND'; 
         }
-        if ($status) {
-            $sql ="SELECT count(id) as total from $table WHERE ".$condition.$id.$cond_status." title LIKE '%".$search."%' and status = '".$status."'";
-        }else{
-            $sql ="SELECT count(id) as total from $table WHERE ".$condition.$id.$cond_status." title LIKE '%".$search."%'";
+        $addtable = '';
+        if (array_key_exists("flows.ar1", $where) || array_key_exists("flows.ar2", $where) || array_key_exists("flows.ar3", $where)) {
+            $addtable = ",template,flows";
         }
+        if ($status) {
+            $sql ="SELECT count($table.id) as total from $table".$addtable." WHERE ".$condition.$id.$cond_status." title LIKE '%".$search."%' and status = '".$status."'";
+        }else{
+            $sql ="SELECT count($table.id) as total from $table".$addtable." WHERE ".$condition.$id.$cond_status." title LIKE '%".$search."%'";
+        } 
         $get_total_records = $this->dbconnect->connectQuery($sql);
         $row = mysqli_fetch_assoc($get_total_records);
         $total_records = $row['total'];
@@ -404,6 +417,13 @@ class post extends connectdb
             $id[] = $row['id'];
         }
         return $id;
+    }
+    public function get_ar_value($ar,$id)
+    {
+        $sql = "SELECT flows.".$ar." FROM posts,flows,template WHERE posts.template_id = template.id and template.flow_id = flows.id AND posts.id = ".$id;
+        $result = $this->dbconnect->connectQuery($sql);
+        $row = mysqli_fetch_array($result);
+        return $row[$ar];
     }
 }
 ?>

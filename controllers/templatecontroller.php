@@ -35,12 +35,12 @@ class templatecontroller
 				"name"   => $name,
 				"urltemplate" => "templates/".$name."/".$name.".html",
 				"urlcs" => "templates/".$name,
-				"category_id" => $_POST['category']
+				"category_id" => $_POST['category'],
+				"flow_id" => $_POST['flow_id']
 			);
 			$kq = $this->post->insert('template',$columns);
 			if ($kq) {
-				header('Location: '.domain.'/template');
-				exit;
+				header('Location: '.domain.'/template'); 
 			}else { 
 				echo 'insert that bai ';
 			}
@@ -67,6 +67,37 @@ class templatecontroller
 	{
 		$result = $this->post->get_leveluser($_SESSION['username']);
     	return $result;
+	}
+	public function createFlow()
+	{
+		$ar3 = FALSE;
+		if (isset($_POST['ar3'])) {
+			$ar3 = TRUE;
+		}
+		$ar2 = FALSE;
+		if (isset($_POST['ar2'])) {
+			$ar2 = TRUE;
+		}
+		$ar1 = FALSE;
+		if (isset($_POST['ar1'])) {
+			$ar1 = TRUE;
+		}
+		$colums = array(
+			'name' => htmlspecialchars(addslashes($_POST['name'])),
+			'ar3' => $ar3,
+			'ar2' => $ar2,
+			'ar1' => $ar1,
+		);
+		$kq = $this->post->insert('flows',$colums);
+		if ($kq) {
+			header('Location: '.domain.'/flow'); 
+		}
+	}
+	public function listFlow()
+	{
+		$where = array(); 
+		$result = $this->post->list('flows',$where,20,'','','','');
+		return $result;
 	}
 }
 ?>

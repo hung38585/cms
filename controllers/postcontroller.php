@@ -74,22 +74,27 @@ class postcontroller
 			switch ($tc) {
 				case '3':
 					$condition_status = array('7'); 
+					$ar = 'ar1';
 					break;
 				case '2':
 					$condition_status = array('6,7'); 
+					$ar = 'ar2';
 					break;
 				case '1':
 					$condition_status = array('5,6,7'); 
+					$ar = 'ar3';
 					break;	
 				default:
 					# code...
 					break;
 			}
+			$where += array('template.id' => 'posts.template_id','flows.id' => 'template.flow_id','flows.'.$ar => true);
 		}else{
 			if ($status) {
 				$where += array("status" => $status); 
 			}
 		}
+		//SELECT title FROM `posts`,`template`,`flows` WHERE template.id = posts.template_id and flows.id = template.flow_id AND ar1 = true
 		$result = $this->post->list('posts',$where,$this->limit,$search,$title,$condition_id,$condition_status);
 		return $result;
 
@@ -148,7 +153,8 @@ class postcontroller
 				default:
 					# code...
 					break;
-			}		
+			}	
+			$where += array('template.id' => 'posts.template_id','flows.id' => 'template.flow_id','flows.ar'.$tc => true);	
 		}
 		$search = htmlspecialchars($search,ENT_QUOTES);
 		$result = $this->post->total_records('posts',$this->limit,$search,$status,$where,$condition_id,$condition_status);
@@ -334,15 +340,27 @@ class postcontroller
     {
     	$deptcode = $this->post->get_deptcode($_SESSION['username']);
     	$tc = $this->post->get_tc($deptcode);
+    	$ar_value2 =  $this->post->get_ar_value('ar2',$_POST['approve']);
+    	$ar_value3 = $this->post->get_ar_value('ar3',$_POST['approve']);
     	switch ($tc) {
-    		case '3':
-    			$status = '6';
+    		case '3': 
+ 				if ($ar_value2) {
+ 					$status = '6'; 
+ 				}else{ 
+ 					$status = '5';
+ 					if (!$ar_value3) {
+ 						$status = '4';
+ 					} 
+ 				}
     			break;
     		case '2':
     			$status = '5';
+    			if (!$ar_value3) {
+    				$status = '4';
+    			}
     			break;
     		case '1':
-    			$status = '4';
+    			$status = '4'; 
     			break;	
     		default:
     			# code...

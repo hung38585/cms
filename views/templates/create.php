@@ -6,10 +6,11 @@ if (!isset($_SESSION['username'])){
   header('Location: '.domain.'/views/posts/login.php');
 }
 if (isset($_SESSION['username'])) {
+	$temp = new templatecontroller();
 	if (isset($_POST['savetemplate'])) {
-		$temp = new templatecontroller();
 		$temp->create();
 	}
+	$flows = $temp->listFlow();
 }
 ?>
 <title>Create Template</title>
@@ -24,16 +25,28 @@ if (isset($_SESSION['username'])) {
 			    	<div class="form-group col-md-6 row">
 			    		<div class="form-group row col-md-12">
 			    			<label class="col-md-3">Name:<span class="text-danger"> *</span></label>
-				    		<input type="text" name="name" class="form-control col-md-8" id="name">
+				    		<input type="text" name="name" class="form-control col-md-9" id="name">
 				    		<span id="nameerr" class="text-danger ml-3"></span>
 				    	</div>
 			    		<div class="col-md-12 form-group row">
 			    			<label class="col-md-3">Category</label>
-			    			<select name="category" class="custom-select col-md-3">
+			    			<select name="category" class="custom-select col-md-9">
 				    			<option value="1"><?php echo CATEGORY_1; ?></option>
 				    			<option value="2"><?php echo CATEGORY_2; ?></option>
 				    			<option value="3"><?php echo CATEGORY_3; ?></option>
 				    		</select>
+			    		</div>
+			    		<div class="col-md-12 form-group row">
+			    			<label for="" class="col-md-3">Flow:</label>
+			    			<select name="flow_id" class="custom-select col-md-9">
+			    				<?php
+			    				foreach ($flows as $key => $flow) {
+			    				?>
+			    				<option value="<?php echo $flow['id']; ?>"><?php echo $flow['name']; ?></option>
+			    				<?php
+			    				}
+			    				?>
+			    			</select>
 			    		</div>
 			    	</div>
 			    	<div class="col-md-6 row">

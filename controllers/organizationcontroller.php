@@ -38,7 +38,12 @@ class organizationcontroller
 	public function delete()
 	{
 		if (isset($_POST['id'])) {
-			var_dump($_POST['id']); exit();
+	      	foreach($_POST['id'] as $value) {
+	        	$kq = $this->post->delete_post('organizations',$value);	 	        	
+       		}	
+       		if ($kq) {
+       			header('Location: '.domain.'/organization');
+       		}
 		}
 	}
 	public function getListOrganc1()

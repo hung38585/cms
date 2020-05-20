@@ -5,7 +5,7 @@ define("host_name", "localhost");
 define("user_name", "root");
 define("db_name", "it16a1");
 define("db_password", "");
-define("ftp_server", "192.168.1.8");
+define("ftp_server", "192.168.1.147");
 define("ftp_username", "hunghi");
 define("ftp_password", "hung12b3");
 define("domain", "http://cmspage.vn");
