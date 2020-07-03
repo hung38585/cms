@@ -18,7 +18,7 @@ if (!isset($_SESSION['username'])){
 	$post = new post();
 	$organc1 = $organ->get_list_organc1();
 	if ($id != 'create') {
-		$autolink_record = $post->one_record('autolink',$id);
+		$autolink_record = $post->one_record('autolink',$id); 
 	}
 }
 $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -55,13 +55,13 @@ $id = $request_arr[count($request_arr)-1];
 								<select name="kind" class="custom-select col-md-5" id="kind" style="display: <?php if ($id != "create" && $autolink_record[3] == 2) {echo "none";} ?>;" >
 									<option value="">Select kind</option>
 									<option value="1" <?php if ($id != "create") {
-										if ($autolink_record[4] == 1) { echo "selected";}
+										if ($autolink_record[3] == 1) { echo "selected";}
 									} ?>><?php echo CATEGORY_1; ?></option>
 									<option value="2" <?php if ($id != "create") {
-										if ($autolink_record[4] == 2) { echo "selected";}
+										if ($autolink_record[3] == 2) { echo "selected";}
 									} ?>><?php echo CATEGORY_2; ?></option>
 									<option value="3" <?php if ($id != "create") {
-										if ($autolink_record[4] == 3) { echo "selected";}
+										if ($autolink_record[3] == 3) { echo "selected";}
 									} ?>><?php echo CATEGORY_3; ?></option>
 								</select>
 							</div>

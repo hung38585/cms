@@ -9,6 +9,9 @@ $user = '/views//users/';
 $organization = '/views//organizations/';
 $autolink = '/views//autolinks/';
 $flow = '/views/flows/';
+$ara = '/views/aras/';
+$banner = '/views/banners/';
+$feedback = '/views/feedbacks/';
 switch ($request) {
     case '/' :
         require __DIR__.$post.'index.php';
@@ -72,7 +75,34 @@ switch ($request) {
         break;
     case '/flow/create' :
         require __DIR__.$flow.'create.php';
-        break;                                       
+        break; 
+    case '/ara' :
+        require __DIR__.$ara.'index.php';
+        break;  
+    case '/ara/create' :
+        require __DIR__.$ara.'create.php';
+        break;
+    case '/ara/bannerorder/'.$id :
+        require __DIR__.$ara.'bannerorder.php';
+        break; 
+    case '/ara/edit/'.$id :
+        require __DIR__.$ara.'edit.php';
+        break;      
+    case '/banner' :
+        require __DIR__.$banner.'index.php';
+        break;  
+    case '/banner/create' :
+        require __DIR__.$banner.'create.php';
+        break;  
+    case '/banner/edit/'.$id :
+        require __DIR__.$banner.'edit.php';
+        break; 
+    case '/auto_cron_feedback' :
+        require __DIR__.$post.'auto_cron_feedback.php';
+        break;  
+    case '/feedback' :
+        require __DIR__.$feedback.'index.php';
+        break;                                                           
     default:
         http_response_code(404);
         require __DIR__.'/views/404.php';

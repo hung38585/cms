@@ -35,5 +35,17 @@ foreach ($link as $key => $value) {
 $filetxt = file_get_contents(dirname(__DIR__,2)."/models/link.txt",'r+');
 $filetxt = str_replace('autolink',$link_value,$filetxt);
 $newcontent = str_replace('<!-- auto link -->',$filetxt,$newcontent);
+
+$file_feedback = file_get_contents(dirname(__DIR__,2)."/models/feedback.html",'r+');
+//Replace Q&A
+  		$file_feedback = str_replace('QUESTION1',QUESTION1,$file_feedback);
+  		$file_feedback = str_replace('QUESTION2',QUESTION2,$file_feedback);
+  		$file_feedback = str_replace('ANSWER_Q1_1',ANSWER_Q1_1,$file_feedback);
+  		$file_feedback = str_replace('ANSWER_Q1_2',ANSWER_Q1_2,$file_feedback);
+  		$file_feedback = str_replace('ANSWER_Q1_3',ANSWER_Q1_3,$file_feedback);
+  		$file_feedback = str_replace('ANSWER_Q2_1',ANSWER_Q2_1,$file_feedback);
+  		$file_feedback = str_replace('ANSWER_Q2_2',ANSWER_Q2_2,$file_feedback);
+  		$file_feedback = str_replace('ANSWER_Q2_3',ANSWER_Q2_3,$file_feedback); 
+$newcontent = str_replace('<!-- feedback -->',$file_feedback,$newcontent); 
 echo $newcontent;
 ?>

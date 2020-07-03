@@ -1,0 +1,3 @@
+<div style="width: area_width;height: area_width;">
+	banner
+</div>

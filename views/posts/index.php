@@ -22,6 +22,7 @@ if ($level == '2') {
   $listtempid = $listtempid[0]['template_id'];
   $foldername = $organ->getFolder($deptcode);
   $foldername = $foldername[0]['folder'];
+  $foldername = ucwords($foldername);
 }
 $total_records = $postcontroller->totalrecords();
 $templates = $temp->get_list_template($listtempid);
@@ -146,17 +147,18 @@ if (isset($_GET['status'])) {
           <thead>
             <tr>
               <th><input type="checkbox" class="" id="checkAll"></th>
-              <!-- <th scope="col">ID</th> -->
+              <th>ID</th>
               <th>Title</th>
-              <th>Status</th>
-              <th>Created at</th>
+              <th>Status</th> 
               <th>Action</th>
               <?php
               if ($level == '2' || $level == '1') {
                 ?>
                 <th>Unpublic</th>
                 <th>Versions</th>
-                <th>Share</th>  
+                <?php if (isshare == 'on'): ?>
+                  <th>Share</th>
+                <?php endif ?> 
                 <?php
               }else{
                 ?>
@@ -202,6 +204,7 @@ if (isset($_GET['status'])) {
                   <td>
                     <input type="checkbox" name="id[]" value="<?php echo $post['id']; ?>"> 
                   </td>
+                  <td><?php echo $post['id']; ?></td>
                   <!-- <td><?php //echo $post['id']; ?> </td> -->
                   <td width="300">
                     <?php
@@ -246,8 +249,7 @@ if (isset($_GET['status'])) {
                       break;
                     }
                     ?>
-                  </td>
-                  <td ><?php echo $post['created_at']; ?></td>
+                  </td> 
                   <td width="250">
                     <?php if ($level == '1' || $level == '2'): ?>
                       <a class="btn btn-outline-success" href="/post/edit/<?php echo $post['id']; ?>">
@@ -426,7 +428,7 @@ if (isset($_GET['status'])) {
               foreach ($folder as $key => $value) {
                 if ($key>2) {
                   if (!strpos($value,'.html')) {
-                    if ($value != 'document' && $value != 'images' && $value != 'files') {
+                    if ($value != 'document' && $value != 'images' && $value != 'files' && $value != 'cgi' && $value != 'csv') {
                       $name = "'".$value."'";
                       if ($level == '2' && $foldername != '/') {
                         if ($value == $foldername) {
@@ -497,7 +499,35 @@ if (isset($_GET['status'])) {
     if (!ischeck) {
       alert('Please choose!');
     }else{
-      $('#exampleModalScrollable').modal('show');
+      result = true;
+      message = '';
+      d = 0;
+      $('input[type=checkbox]').each(function () { 
+          if (this.checked) {
+            id = $(this).val(); 
+            $.ajax({
+              async: false,
+              method: "POST",
+              url: "/views/posts/checkuser.php",
+              data:{id: id } ,
+              success : function(response){ 
+                if (response == 0) {
+                  result = false;  
+                  message += id+" "; 
+                  d++;
+                } 
+              }
+            }); 
+          }
+      }); 
+      if (result) {
+        $('#exampleModalScrollable').modal('show');
+      }else{
+        if (d > 1 ) {
+          message = message.slice(0,message.length-2);
+        } 
+        alert("You don't have permission to access id: "+message);
+      }
     }
   });
   $("#checkAll").click(function () {

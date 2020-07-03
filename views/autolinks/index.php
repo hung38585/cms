@@ -12,6 +12,9 @@ if (!isset($_SESSION['username'])){
 }else{
 	$autolinkcontroller = new autolinkcontroller();
 	$autolink = $autolinkcontroller->index();
+	if (isset($_POST['deleteall'])) {
+		$autolinkcontroller->delete();
+	}
 }
 ?>
 <!DOCTYPE html>
@@ -27,6 +30,7 @@ if (!isset($_SESSION['username'])){
 				<button class="btn btn-outline-danger mb-2 ml-1"  type="button"  id="del" style="float: right;"><i class="far fa-trash-alt"></i></button>
 				<a href="autolink/create" class="btn btn-outline-info " style="float: right;">Add <i class="fas fa-plus-square"></i></a>
 			</div>
+			<form method="POST">
 			<div class="card-body row">
 				<table class="table table-hover">
 					<thead>
@@ -43,7 +47,7 @@ if (!isset($_SESSION['username'])){
 							<td><input type="checkbox" name="id[]" value="<?php echo $value['id'] ?>"></td>
 							<td><?php echo $value['name']; ?></td>
 							<td><?php echo htmlentities('<!-- auto link id='.$value['id'].'-->'); ?></td>
-							<td><a href="autolink/edit/<?php echo $value['id'] ?>" class="btn btn-primary"><i class="far fa-edit"></i></a></td>
+							<td><a href="autolink/edit/<?php echo $value['id'] ?>" class="btn btn-outline-success"><i class="far fa-edit"></i></a></td>
 						</tr>
 					<?php	
 					}
@@ -52,8 +56,7 @@ if (!isset($_SESSION['username'])){
 				</table>
 			</div>
 		</div>
-		<!-- Model Delete -->
-		<form method="POST">
+		<!-- Model Delete --> 
 		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">

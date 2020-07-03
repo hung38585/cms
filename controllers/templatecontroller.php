@@ -82,11 +82,27 @@ class templatecontroller
 		if (isset($_POST['ar1'])) {
 			$ar1 = TRUE;
 		}
+		$user_public_id = '';
+		if (isset($_POST['user_public_id'])) {
+			foreach ($_POST['user_public_id'] as $key => $value) {
+				$user_public_id .= $value.',';
+			}
+			$user_public_id = substr($user_public_id,0,-1);
+		} 
+		$master = FALSE;
+		if (isset($_POST['master'])) {
+			$master = TRUE;
+		}
+		if (!$user_public_id) {
+			$master = TRUE;
+		}
 		$colums = array(
 			'name' => htmlspecialchars(addslashes($_POST['name'])),
 			'ar3' => $ar3,
 			'ar2' => $ar2,
 			'ar1' => $ar1,
+			'user_public_id' => $user_public_id,
+			'master' => $master
 		);
 		$kq = $this->post->insert('flows',$colums);
 		if ($kq) {
@@ -98,6 +114,23 @@ class templatecontroller
 		$where = array(); 
 		$result = $this->post->list('flows',$where,20,'','','','');
 		return $result;
+	}
+	public function listUser()
+	{
+		$where = array("level" => "3"); 
+		$result = $this->post->list('user',$where,100,'','','','');
+		return $result;
+	}
+	public function deleteFlow()
+	{
+		if (isset($_POST['id'])) {
+	      	foreach($_POST['id'] as $value) {
+	        	$kq = $this->post->delete_post('flows',$value);	 	        	
+       		}	
+       		if ($kq) {
+       			header('Location: '.domain.'/flow');
+       		}
+		}
 	}
 }
 ?>

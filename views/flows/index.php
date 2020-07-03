@@ -10,6 +10,9 @@ if (!isset($_SESSION['username'])){
 	header('Location: '.domain.'/login');
 }else{
 	$flows = $temp->listFlow();
+	if (isset($_POST['deleteall'])) {
+		$temp->deleteFlow();
+	}
 }
 ?>
 <!DOCTYPE html>
@@ -31,6 +34,8 @@ if (!isset($_SESSION['username'])){
 						<th><input type="checkbox" class="" id="checkAll"></th>
 						<th>Name</th>
 						<th>Flow</th>
+						<th>User Public Id</th>
+						<th>Master Public </th>
 					</thead>
 					<tbody>
 					<form method="POST">
@@ -38,7 +43,7 @@ if (!isset($_SESSION['username'])){
 					?>
 					<tr>
 						<td width="100"><input type="checkbox" name="id[]" value="<?php echo $flow['id'] ?>"></td>
-						<td width="400"><?php echo $flow['name']; ?></td>
+						<td width="200"><?php echo $flow['name']; ?></td>
 						<td>
 							<?php if ($flow['ar1']): ?>
 								AR1 ->
@@ -51,6 +56,8 @@ if (!isset($_SESSION['username'])){
 							<?php endif ?>
 							MASTER
 						</td>
+						<td width="200"><?php echo $flow['user_public_id']; ?></td>
+						<td width="200"><?php echo $flow['master']? 'True':'False'; ?></td>
 					</tr>	
 					<?php
 					} ?>

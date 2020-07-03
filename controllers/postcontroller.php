@@ -58,8 +58,8 @@ class postcontroller
 		}
 		$level = $this->post->get_leveluser($_SESSION['username']);
 		$where = array(); 
-		if ($level == '2') {
-			$user_id = $this->post->get_iduser($_SESSION['username']);
+		$user_id = $this->post->get_iduser($_SESSION['username']);
+		if ($level == '2') { 
 			$where = array("user_id" => $user_id); 
 		}
 		$condition_id = array();
@@ -93,7 +93,7 @@ class postcontroller
 			if ($status) {
 				$where += array("status" => $status); 
 			}
-		}
+		} 
 		//SELECT title FROM `posts`,`template`,`flows` WHERE template.id = posts.template_id and flows.id = template.flow_id AND ar1 = true
 		$result = $this->post->list('posts',$where,$this->limit,$search,$title,$condition_id,$condition_status);
 		return $result;
@@ -168,6 +168,7 @@ class postcontroller
 			$status = '7';
 		}
 		if ($_POST['txttitle'] && $_POST['txtcontent']) {
+			date_default_timezone_set('Asia/Ho_Chi_Minh'); 
 			$columns = array(
 				"title"   => htmlspecialchars(addslashes($_POST['txttitle'])),
 				"content" => ($_POST['txtcontent']),
@@ -175,7 +176,8 @@ class postcontroller
 				"urlfolder" => htmlspecialchars(preg_replace('([\s]+)', ' ',$_POST['path'])),
 				"template_id" => $_POST['templateid'],
 				"ispostfb" => $_POST['isfb'],
-				"user_id" =>$this->post->get_iduser($_SESSION['username'])
+				"user_id" =>$this->post->get_iduser($_SESSION['username']),
+				"created_at" => date("Y-m-d H:i:s")
 			);
 			$kq = $this->post->insert('posts',$columns);
 			if ($kq) {

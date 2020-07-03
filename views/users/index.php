@@ -52,7 +52,7 @@ if (!isset($_SESSION['username'])){
 						<th>ID</th>
 						<th>Username</th>
 						<th>Level</th>
-						<th>#</th>
+						<th>Deptcode</th>
 					</thead>
 					<tbody>
 					<form method="POST">
@@ -65,7 +65,7 @@ if (!isset($_SESSION['username'])){
 							<td><?php echo $value['id']; ?></td>
 							<td><?php echo $value['username']; ?></td>
 							<td><?php echo $value['level']; ?></td>
-							<td></td>
+							<td><?php echo $value['deptcode']; ?></td>
 						</tr>
 						<?php
 						}

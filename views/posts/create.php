@@ -62,9 +62,9 @@ if (isset($_SESSION['username'])){
 </style>
 <?php
 if (isset($_POST['template'])) { 
-  $create = '<button type="button" class="btn btn-primary" id="save"style="position: fixed; top: 40%; right: 1%; width: 78px;">Save</button>
-  <a href="/" class="btn btn-danger" style="position: fixed; top: 46.5%; right: 1%;"><i class="mr-1 fas fa-arrow-left"></i>Back</a>
-  <button type="button" class="btn btn-success preview" data-toggle="modal" data-target=".bd-example-modal-xl" style="position: fixed; top: 53%; right: 1%; width:77px;" >Preview</button>
+  $create = '<button type="button" class="btn btn-primary" id="save"style="position: fixed; top: 40%; right: 1%; width: 78px;z-index: 1000;">Save</button>
+  <a href="/" class="btn btn-danger" style="position: fixed; top: 46.5%; right: 1%;z-index: 1000;"><i class="mr-1 fas fa-arrow-left"></i>Back</a>
+  <button type="button" class="btn btn-success preview" data-toggle="modal" data-target=".bd-example-modal-xl" style="position: fixed; top: 53%; right: 1%; width:77px;z-index: 1000;" >Preview</button>
   <div class="form-group row" >
   <div class="col-md-12">
   <h4 class="mt-5">'.$_POST['title'].'</h4>
@@ -185,7 +185,7 @@ if (isset($_POST['template'])) {
             foreach ($folder as $key => $value) {
               if ($key>2) {
                 if (!strpos($value,'.html')) {
-                  if ($value != 'document' && $value != 'images' && $value != 'files') {
+                  if ($value != 'document' && $value != 'images' && $value != 'files' && $value != 'cgi' && $value != 'csv') {
                     $name = "'".$value."'";
                     echo '<button onclick="selectfolder('.$name.',this.id)" id="firstfolder" class="btn" value="'.$value.'" style="margin: 0; height: 20px; padding: 0"><h6><i class="fas fa-folder"></i> '.$value.'</h6></button><br>';
                   }

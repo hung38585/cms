@@ -15,7 +15,8 @@ class FTP
 		$con = ftp_connect(ftp_server) or die("Could not connect to ftp_server");
         $ftp = ftp_login($con, ftp_username, ftp_password);
        	//Lay 1 record theo id
-        $result = $this->posts->one_record($table,$id);
+        $result = $this->posts->one_record($table,$id);  
+		
         $fileput = dirname(__DIR__)."/models/new.html";
 		$imgput = dirname(__DIR__)."/upload/images/";
 		$filepath = dirname(__DIR__)."/upload/document/";
@@ -34,7 +35,7 @@ class FTP
 			$d = $this->path->getname($path);
 			$path = $url[0];
 			$filename = $url[$d];
-		}
+		} 
 		$folder_list = ftp_nlist($con,'.');
 		$folderimage_list = ftp_nlist($con,$images);
 		$folderdocument_list = ftp_nlist($con,$document);
@@ -161,19 +162,57 @@ class FTP
 	    		ftp_delete($con,$value_file_list_document);
 	    	}
 	    }
-	    //add template	
+	    //Add Template	
 	    $template = $this->posts->one_record('template',$result[5]);
 	    $file_template = file_get_contents(dirname(__DIR__)."//".$template[2],'r+');
   		$newcontent = str_replace('<p class="formcreatepost"></p>',$newcontent,$file_template);
   		$newcontent = str_replace('<title></title>','<title>'.$result[1].'</title>',$newcontent);
-  		//Auto link
+		//Banner 
+		if (preg_match_all('/\<!-- area id=(.+)\-->/', $result[2], $matches2))
+		{
+			foreach ($matches2[1] as $key => $value) {
+				$area = $this->posts->one_record('aras',$value); 
+				$filearea = file_get_contents(dirname(__DIR__)."/models/area.txt",'r+');
+				$filearea = str_replace('area_width',$area[2]."px",$filearea);
+				$filearea = str_replace('area_height',$area[3]."px",$filearea);
+				$list_banner_id = explode(',',$area[6]);
+				$banner_length = $area[5];
+				if (count($list_banner_id) < $area[5]) {
+					$banner_length = count($list_banner_id);
+				}
+				$banner_content = '';
+				$float = '';
+				if ($area[4] == '1') {
+					$float = ';float: left';
+				}
+				for ($i=0; $i < $banner_length; $i++) { 
+					$banner = $this->posts->one_record('banners',$list_banner_id[$i]); 
+					$img_height = $area[3]*$banner[5]/100 - 10;
+					$banner_content .= '<div style="width: '.$banner[4].'% ;height: '.$banner[5].'%'.$float.' "><p style="height:10px;">'.$banner[2].'</p><img src="/'.$images.'/'.$filename.'/'.$banner[3].'" style="width: 100%; height: '.$img_height.'px;"></div>';
+					ftp_put($con,$images."/".$filename."/".$banner[3],dirname(__DIR__).'/assets/images/'.$banner[3], FTP_BINARY);
+				}
+				$filearea = str_replace('banner',$banner_content,$filearea); 
+				//Them banner lien quan vao page 
+				$newcontent = str_replace("<!-- area id=".$value."-->",$filearea,$newcontent); 
+			} 
+		}
+		//Add Feedback
+  		$file_feedback = file_get_contents(dirname(__DIR__)."/models/feedback.html",'r+');
+  		$file_feedback = str_replace('page_id_value',$result[0],$file_feedback); 
+  		//Replace Q&A
+  		$file_feedback = str_replace('QUESTION1',QUESTION1,$file_feedback);
+  		$file_feedback = str_replace('QUESTION2',QUESTION2,$file_feedback);
+  		$file_feedback = str_replace('ANSWER_Q1_1',ANSWER_Q1_1,$file_feedback);
+  		$file_feedback = str_replace('ANSWER_Q1_2',ANSWER_Q1_2,$file_feedback);
+  		$file_feedback = str_replace('ANSWER_Q1_3',ANSWER_Q1_3,$file_feedback);
+  		$file_feedback = str_replace('ANSWER_Q2_1',ANSWER_Q2_1,$file_feedback);
+  		$file_feedback = str_replace('ANSWER_Q2_2',ANSWER_Q2_2,$file_feedback);
+  		$file_feedback = str_replace('ANSWER_Q2_3',ANSWER_Q2_3,$file_feedback);
+  		$newcontent = str_replace('<!-- feedback -->',$file_feedback,$newcontent); 
+		//Auto link
   		$link_value = '';
   		$subject = $result[2];
 		$pattern = '/\<!-- auto link id=(.+)\-->/';
-		if (preg_match($pattern, $subject, $matches))
-		{
-			
-		}
 		if (preg_match_all($pattern, $subject, $matches))
 		{
 			foreach ($matches[1] as $key => $value) {

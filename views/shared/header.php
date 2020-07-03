@@ -12,11 +12,11 @@ if (isset($_POST['logout'])) {
 <head>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" ></script>
-
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" >
+  
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -27,23 +27,32 @@ if (isset($_POST['logout'])) {
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav col-md-9">
         <?php if ($level == '1'): ?>
-        <li class="nav-item">
+        <li class="nav-item post">
           <a class="nav-link" href="/post">Post</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/template">Template</a>
+        <li class="nav-item template">
+          <a class="nav-link " href="/template">Template</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/user">User</a>
+        <li class="nav-item user">
+          <a class="nav-link " href="/user">User</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/organization">Organization</a>
+        <li class="nav-item organization">
+          <a class="nav-link " href="/organization">Organization</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item autolink">
           <a class="nav-link" href="/autolink">Autolink</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item flow">
           <a class="nav-link" href="/flow">Flow</a>
+        </li>
+        <li class="nav-item area">
+          <a class="nav-link " href="/ara">Area</a>
+        </li>
+        <li class="nav-item banner">
+          <a class="nav-link" href="/banner">Banner</a>
+        </li>
+        <li class="nav-item feedback">
+          <a class="nav-link" href="/feedback">Feedback</a>
         </li>
         <?php endif ?>
       </ul>
@@ -59,3 +68,57 @@ if (isset($_POST['logout'])) {
     </div>
   </nav>
 </html>
+<script>
+  <?php 
+  switch ($request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)) {
+    case '/post':
+      ?>
+      $("li.post").addClass("active");
+      <?php
+      break;
+    case '/template':
+      ?>
+      $("li.template").addClass("active");
+      <?php
+      break;
+    case '/user':
+      ?>
+      $("li.user").addClass("active");
+      <?php
+      break;
+    case '/organization':
+      ?>
+      $("li.organization").addClass("active");
+      <?php
+      break;
+    case '/autolink':
+      ?>
+      $("li.autolink").addClass("active");
+      <?php
+      break;
+    case '/flow':
+      ?>
+      $("li.flow").addClass("active");
+      <?php
+      break;
+    case '/ara':
+      ?>
+      $("li.area").addClass("active");
+      <?php
+      break;
+    case '/banner':
+      ?>
+      $("li.banner").addClass("active");
+      <?php
+      break;
+    case '/feedback':
+      ?>
+      $("li.feedback").addClass("active");
+      <?php
+      break;                
+    default:
+      # code...
+      break;
+  }
+  ?>
+</script>

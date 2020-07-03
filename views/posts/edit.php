@@ -69,19 +69,19 @@ if (isset($_SESSION['username'])){
     -o-transform: scale(0.5);
     -o-transform-origin: 0 0;
     -webkit-transform: scale(0.5);
-    -webkit-transform-origin: 0 0;
+    -webkit-transform-origin: 0 0; 
   }
   .btnback a:hover {
     color: white;
   }  
 </style>
 <?php
-$edit = '<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal" style="position: fixed; top: 33.5%; right: 1%; width: 95px;">CheckLink</button>
-<a href="/" class="btn btn-danger" style="position: fixed; top: 46.5%; right: 1%; width: 95px;"><i class="mr-1 fas fa-arrow-left"></i>Back</a>
+$edit = '<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal" style="position: fixed; top: 33.5%; right: 1%; width: 95px;z-index: 1000;">CheckLink</button>
+<a href="/" class="btn btn-danger" style="position: fixed; top: 46.5%; right: 1%; width: 95px;z-index: 1000;"><i class="mr-1 fas fa-arrow-left"></i>Back</a>
 <div class="col-md-12" >
-<button type="button" class="btn btn-success preview" data-toggle="modal" data-target=".bd-example-modal-xl" style="position: fixed; top: 53%; right: 1%; width:95px;" >Preview</button> 
+<button type="button" class="btn btn-success preview" data-toggle="modal" data-target=".bd-example-modal-xl" style="position: fixed; top: 53%; right: 1%; width:95px;z-index: 1000;" >Preview</button> 
 <form method="POST" onsubmit = "return validateForm();">
-<button name="updatepost" class="btn btn-primary" id="save"style="position: fixed; top: 40%; right: 1%;width: 95px;">Update</button>
+<button name="updatepost" class="btn btn-primary" id="save"style="position: fixed; top: 40%; right: 1%;width: 95px;z-index: 1000;">Update</button>
 <div class="form-group ">
 <label >Title</label>
 <input type="text" class="form-control" id="title" name="txttitle" value="'.$post[1].'" placeholder="" >

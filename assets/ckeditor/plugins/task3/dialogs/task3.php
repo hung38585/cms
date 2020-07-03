@@ -35,7 +35,7 @@ CKEDITOR.dialog.add( 'task3Dialog', function( editor ) {
 					    	var document = this.getElement().getDocument();
 						    var element = document.getById('showtemp');
 						    if (element) {
-						        element.setText(this.getValue());
+						        element.setHtml(this.getValue());
 						    }
 						}
                 	},

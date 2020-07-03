@@ -13,7 +13,7 @@ class usercontroller
 	public function index()
 	{
 		$where = array(); 
-		$result = $this->post->list('user',$where,15,'','','','');
+		$result = $this->post->list('user',$where,20,'','','','');
 		return $result;
 	}
 	public function create()

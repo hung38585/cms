@@ -14,5 +14,16 @@ class autolinkcontroller
 		$result = $this->post->list('autolink',$where,10,'','','','');
 		return $result;
 	}
+	public function delete()
+	{
+		if (isset($_POST['id'])) {
+	      	foreach($_POST['id'] as $value) {
+	        	$kq = $this->post->delete_post('autolink',$value);	 	        	
+       		}	
+       		if ($kq) {
+       			header('Location: '.domain.'/autolink');
+       		}
+		}
+	}
 }
 ?>

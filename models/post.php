@@ -54,6 +54,9 @@ class post extends connectdb
         if (array_key_exists("flows.ar1", $where) || array_key_exists("flows.ar2", $where) || array_key_exists("flows.ar3", $where)) {
             $sqlselect =  "SELECT $table.* FROM $table,template,flows ";
         }
+        // if (array_key_exists("template.id", $where)) {
+        //     $sqlselect .= ",template,flows";
+        // }
         $id = '';
         if ($condition_id) {
             foreach ($condition_id as $key => $value) {
@@ -90,7 +93,7 @@ class post extends connectdb
                 }
                 $sql = $sqlselect.$id.$cond_status." ORDER BY created_at DESC LIMIT ".$start.",".$lm;   
             }
-        }
+        }  
         $list = $this->dbconnect->connectQuery($sql);
         $result = array();
         if ($list){
@@ -194,9 +197,7 @@ class post extends connectdb
 	{
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         $timepub = date("Y-m-d H:i:s");
-		$sql = "UPDATE $table
-		SET status = '2',published_at = '$timepub'
-		where id = $id";
+		$sql = "UPDATE $table SET status = '2',published_at = '$timepub' where id = $id"; 
 		$result = $this->dbconnect->connectQuery($sql);
 		return $result;
 	}
@@ -424,6 +425,41 @@ class post extends connectdb
         $result = $this->dbconnect->connectQuery($sql);
         $row = mysqli_fetch_array($result);
         return $row[$ar];
+    }
+    public function get_user_public_id()
+    {
+        $sql = "SELECT flows.user_public_id FROM posts,template,flows WHERE template.id = posts.template_id and flows.id = template.flow_id AND flows.user_public_id <> ''";
+        $id = array();
+        $result = $this->dbconnect->connectQuery($sql);
+        while ($row = mysqli_fetch_array($result)) {
+            $id[] = $row['user_public_id'];
+        }
+        $id = array_unique($id); 
+        return $id;
+    }
+    public function check_id_public($post_id,$user_id)
+    {
+        $sql = "SELECT flows.user_public_id, flows.master FROM posts,flows,template WHERE posts.template_id = template.id AND template.flow_id = flows.id AND posts.id = $post_id";
+        $result = $this->dbconnect->connectQuery($sql);
+        $id = array();
+        while ($row = mysqli_fetch_array($result)) {
+            $id[] = $row;
+        } 
+        $username = $_SESSION['username'];
+        $sql = "SELECT level FROM user WHERE username='$username'";
+        $result = $this->dbconnect->connectQuery($sql);
+        while ($row = mysqli_fetch_array($result)) {
+            $level = $row['level'];
+        }
+        if ($level == '1' && $id[0]['master'] == '1') {
+            return TRUE;
+        }
+        $id = explode(",",$id[0]['user_public_id']); 
+        if (in_array($user_id, $id)) {
+            return TRUE;
+        }else{
+            return FALSE;
+        }
     }
 }
 ?>

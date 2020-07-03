@@ -24,7 +24,7 @@ if (!isset($_SESSION['username'])){
 			"status" => $_POST['status'],
 			"relate" => $_POST['relate'] 
 		);
-		if ($_POST['autolink_id'] == "create") {
+		if ($_POST['autolink_id'] == "create") { 
 			$post->insert('autolink',$colum);
 		}else{
 			$post->update_post('autolink',$_POST['autolink_id'],$colum);
