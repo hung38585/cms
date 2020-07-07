@@ -3,6 +3,7 @@ include_once dirname(__DIR__,2)."/config/config.php";
 include_once dirname(__DIR__,2)."/models/connectdb.php";
 include_once dirname(__DIR__,2)."/controllers/postcontroller.php";
 include_once dirname(__DIR__,2)."/controllers/templatecontroller.php";
+include_once dirname(__DIR__,2)."/controllers/categorycontroller.php";
 include_once dirname(__DIR__,2)."/controllers/organizationcontroller.php";
 include_once dirname(__DIR__,2)."/views/shared/header.php";
 include_once dirname(__DIR__,2)."/views/posts/pagelist.php";
@@ -14,6 +15,8 @@ $postcontroller = new postcontroller();
 $organ = new organizationcontroller();
 $temp = new templatecontroller();
 $path = new path();
+$category = new categorycontroller();
+$categories = $category->index();
 $level = $postcontroller->getLevelUser();
 $listtempid = '';
 if ($level == '2') {
@@ -394,6 +397,12 @@ if (isset($_GET['status'])) {
                   <hr>
                   <input type="checkbox" name="isfb" id="isfb" value="1">
                   <label for="isfb">Post Facebook</label>
+                  <!-- Category -->
+                  <select name="category_id" id="" class="form-control">
+                    <?php foreach ($categories as $key => $value): ?>
+                    <option value="<?php echo $value['id']; ?>"><?php echo $value['name']; ?></option>
+                    <?php endforeach ?> 
+                  </select>
                 </div>
               </form>  
               <div class="showtemplate col-md-8" style=" height: 300px;">

@@ -54,6 +54,9 @@ if (isset($_POST['logout'])) {
         <li class="nav-item feedback">
           <a class="nav-link" href="/feedback">Feedback</a>
         </li>
+        <li class="nav-item category">
+          <a class="nav-link" href="/category">Category</a>
+        </li>
         <?php endif ?>
       </ul>
       <div class="col-md-3">
@@ -115,7 +118,12 @@ if (isset($_POST['logout'])) {
       ?>
       $("li.feedback").addClass("active");
       <?php
-      break;                
+      break; 
+    case '/category':
+      ?>
+      $("li.category").addClass("active");
+      <?php
+      break;                 
     default:
       # code...
       break;
