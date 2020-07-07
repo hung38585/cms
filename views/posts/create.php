@@ -122,6 +122,7 @@ if (isset($_POST['template'])) {
           <button type="button" class="btn btn-outline-dark mt-2 mb-1" data-toggle="modal" data-target="#changefolder" style="margin-left: 16.5%;">URL Folder</button>
           <input type="hidden" id="path" name="path" value="<?php echo $_POST['path']; ?>">
           <input type="hidden" name="isfb" value="<?php if(isset($_POST['isfb'])){echo $_POST['isfb'];}else{echo 0;} ?>">
+          <input type="hidden" name="category_id" value="<?php echo $_POST['category_id']; ?>">
           <div class="col-md-7 mt-3" style="overflow-x: auto;">
             <span id="showpath"  class="ml-2 mr-2 col-md-9"><?php echo $_POST['path']; ?></span>  
             <a href="javascript:void(0)" id="clear" class="mt-3 text-danger font-weight-bold" style="text-decoration: none;">X</a> 

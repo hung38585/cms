@@ -177,6 +177,7 @@ class postcontroller
 				"template_id" => $_POST['templateid'],
 				"ispostfb" => $_POST['isfb'],
 				"user_id" =>$this->post->get_iduser($_SESSION['username']),
+				"category_id" => $_POST['category_id'],
 				"created_at" => date("Y-m-d H:i:s")
 			);
 			$kq = $this->post->insert('posts',$columns);
